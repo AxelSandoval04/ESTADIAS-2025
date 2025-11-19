@@ -1,0 +1,66 @@
+# === Root Git Ignore for ISIELECT (frontend + backend) ===
+
+# Node dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+/dist/
+**/dist/
+/build/
+**/build/
+.tmp/
+.temp/
+tmp/
+.cache/
+.vite/
+.eslintcache
+*.tsbuildinfo
+coverage/
+
+# Editors/OS
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+.history/
+
+# Logs & PIDs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+pids/
+*.pid
+*.pid.lock
+*.seed
+
+# Environment files (keep examples)
+.env
+.env.*
+*.env
+*.env.*
+**/.env
+**/.env.*
+!**/.env.example
+
+# Local configs
+*.local
+
+# Framework specific (safe to keep ignored)
+.next/
+.nuxt/
+.svelte-kit/
+.out/
+.storybook-out/
+
+# Backend uploads: keep folder, ignore files
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Misc
+*.orig

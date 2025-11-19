@@ -1,0 +1,17 @@
+# Normalize line endings across platforms
+* text=auto
+
+# Ensure shell scripts stay LF (if any)
+*.sh text eol=lf
+
+# Common text files
+*.js text
+*.ts text
+*.tsx text
+*.jsx text
+*.json text
+*.css text
+*.scss text
+*.md text
+*.yml text
+*.yaml text
