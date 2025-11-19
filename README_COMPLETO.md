@@ -1,8 +1,8 @@
-# 🏢 Sistema Completo - Empresa de Instalaciones Eléctricas
+# Sistema Completo - Empresa de Instalaciones Eléctricas
 
 Sistema web completo con frontend (Vite + React + TypeScript) y backend (Node.js + Express + MongoDB) para empresa de instalaciones eléctricas con panel de administración.
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 Proyecto/
@@ -17,7 +17,7 @@ Proyecto/
 └── README.md            # Este archivo
 ```
 
-## 🗄️ Base de Datos (5 Tablas + Relaciones)
+## Base de Datos (5 Tablas + Relaciones)
 
 ### Tablas:
 1. **Users** - Usuarios y administradores
@@ -37,9 +37,9 @@ Proyecto/
 
 Ver detalles completos en: `backend/TABLAS_Y_RELACIONES.md`
 
-## 🚀 Instalación y Configuración
+## Instalación y Configuración
 
-### 1️⃣ Backend (API)
+### 1️ Backend (API)
 
 ```powershell
 # Navegar a backend
@@ -55,9 +55,9 @@ notepad .env
 
 Completa el archivo `.env`:
 ```env
-MONGODB_URI=mongodb+srv://usuario:password@cluster.xxxxx.mongodb.net/instalaciones?retryWrites=true&w=majority
+MONGODB_URI=
 PORT=4000
-JWT_SECRET=tu_secret_super_seguro_12345
+JWT_SECRET=
 ```
 
 ```powershell
@@ -70,7 +70,7 @@ npm run dev
 
 Backend disponible en: `http://localhost:4000`
 
-### 2️⃣ Frontend (App Web)
+### 2️ Frontend (App Web)
 
 ```powershell
 # En otra terminal PowerShell, desde la raíz del proyecto
@@ -85,7 +85,7 @@ npm run dev
 
 Frontend disponible en: `http://localhost:3000` (configurado en vite.config.ts)
 
-## 📡 Endpoints de la API
+## Endpoints de la API
 
 ### Públicos (sin autenticación):
 - `GET /api/services` - Listar servicios
@@ -105,7 +105,7 @@ Frontend disponible en: `http://localhost:3000` (configurado en vite.config.ts)
 - `POST /api/quotes/:id/respond` - Responder cotización (admin)
 - ... (ver backend/README.md para lista completa)
 
-## 🔑 Credenciales de Prueba (después de seed)
+## Credenciales de Prueba (después de seed)
 
 Si ejecutaste `npm run seed` en el backend:
 
@@ -114,7 +114,7 @@ Email: admin@instalacioneselectricas.com
 Password: admin123
 ```
 
-## 🧪 Probar la API (PowerShell)
+## Probar la API (PowerShell)
 
 ### Login:
 ```powershell
@@ -145,7 +145,7 @@ $body = @{
 Invoke-RestMethod -Uri http://localhost:4000/api/services -Method POST -Body $body -ContentType 'application/json' -Headers $headers
 ```
 
-## 📚 Documentación Adicional
+## Documentación Adicional
 
 - **Backend completo**: Ver `backend/README.md`
 - **Tablas y relaciones**: Ver `backend/TABLAS_Y_RELACIONES.md`
@@ -170,7 +170,7 @@ Invoke-RestMethod -Uri http://localhost:4000/api/services -Method POST -Body $bo
 - bcryptjs
 - CORS
 
-## 📝 Notas Importantes
+## Notas Importantes
 
 1. **MongoDB Atlas**: Asegúrate de tener tu IP autorizada en Network Access
 2. **JWT_SECRET**: Usa un secret fuerte en producción
@@ -178,27 +178,23 @@ Invoke-RestMethod -Uri http://localhost:4000/api/services -Method POST -Body $bo
 4. **Soft Delete**: Las eliminaciones son "soft" (isActive: false)
 5. **Autenticación**: Tokens JWT válidos por 30 días
 
-## 🎯 Estado Actual del Proyecto
+## Estado Actual del Proyecto
 
-- ✅ Backend API completo con autenticación JWT
-- ✅ 5 modelos de base de datos con 7 relaciones
-- ✅ CRUD completo para todas las entidades
-- ✅ Script seed con datos de ejemplo
-- ✅ Documentación completa
-- ✅ Frontend Vite+React+TypeScript base
-- ⏳ Integración frontend-backend (próximo paso)
-- ⏳ Panel de administración en frontend
-- ⏳ Formulario de cotizaciones funcional
-- ⏳ Subida de imágenes (Cloudinary/S3)
+-  Backend API completo con autenticación JWT
+-  5 modelos de base de datos con 7 relaciones
+-  CRUD completo para todas las entidades
+-  Script seed con datos de ejemplo
+-  Documentación completa
+-  Frontend Vite+React+TypeScript base
+-  Integración frontend-backend (próximo paso)
+-  Panel de administración en frontend
+-  Formulario de cotizaciones funcional
+-  Subida de imágenes (Cloudinary/S3)
 
-## 🆘 Soporte
+## Soporte
 
 Si tienes problemas:
 1. Verifica que MongoDB esté conectado: `GET http://localhost:4000/api/health`
 2. Revisa logs del backend en la terminal
 3. Verifica que las variables de entorno estén configuradas
 4. Asegúrate de que los puertos 3000 y 4000 estén disponibles
-
----
-
-**Original Design**: Este proyecto está basado en el diseño de Figma: https://www.figma.com/design/HHBvVEUJE1wNaDEvybC2df/Company-Website-Design
