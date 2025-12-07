@@ -42,13 +42,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const response = await authAPI.login(email, password);
       const { token, ...userData } = response.data;
-      
+
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(userData));
-      
+
       setToken(token);
       setUser(userData);
-      
+
+      // Si la contraseña es la genérica, guardar flag
+      if (password === '123456') {
+        localStorage.setItem('forceChangePassword', 'true');
+      } else {
+        localStorage.removeItem('forceChangePassword');
+      }
+
       return userData; // Retornar datos del usuario para uso posterior
     } catch (error: any) {
       throw new Error(error.response?.data?.error || 'Error al iniciar sesión');

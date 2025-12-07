@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { reviewsAPI } from "../lib/api";
 import { Card } from "./ui/card";
@@ -9,23 +10,10 @@ import { Star, AlertCircle, MessageSquare, Clock, CheckCircle, XCircle } from "l
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "./ui/alert";
 
-interface Review {
-  _id: string;
-  createdBy: {
-    name: string;
-    email: string;
-  };
-  comment: string;
-  rating: number;
-  status: "pending" | "approved" | "rejected";
-  createdAt: string;
-}
 
-interface ReviewsPageProps {
-  onNavigate: (page: string) => void;
-}
 
-export function ReviewsPage({ onNavigate }: ReviewsPageProps) {
+export function ReviewsPage() {
+    const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
@@ -56,7 +44,7 @@ export function ReviewsPage({ onNavigate }: ReviewsPageProps) {
 
     if (!isAuthenticated) {
       toast.error("Debes iniciar sesión para dejar una reseña");
-      onNavigate("login");
+      navigate("/login");
       return;
     }
 
@@ -166,7 +154,7 @@ export function ReviewsPage({ onNavigate }: ReviewsPageProps) {
                       Debes{" "}
                       <button
                         type="button"
-                        onClick={() => onNavigate("login")}
+                        onClick={() => navigate("/login")}
                         className="underline font-semibold hover:text-amber-900"
                       >
                         iniciar sesión

@@ -10,13 +10,10 @@ import {
   Wrench,
   CheckCircle,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-interface ServicesPageProps {
-  onNavigate: (page: string) => void;
-}
-
-// Servicios hardcodeados (no vienen de la BD)
-export function ServicesPage({ onNavigate }: ServicesPageProps) {
+export function ServicesPage() {
+  const navigate = useNavigate();
   const services = [
     {
       icon: Zap,
@@ -127,6 +124,8 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
                   className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
                     !isEven ? "lg:flex-row-reverse" : ""
                   }`}
+                  onClick={() => navigate("/contact")}
+                  style={{ cursor: "pointer" }}
                 >
                   <div className={isEven ? "lg:order-1" : "lg:order-2"}>
                     <div className="w-14 h-14 bg-accent rounded-xl flex items-center justify-center mb-4">
@@ -177,7 +176,7 @@ export function ServicesPage({ onNavigate }: ServicesPageProps) {
             Contáctanos para discutir tus necesidades y obtener una cotización personalizada
           </p>
           <Button
-            onClick={() => onNavigate("contact")}
+            onClick={() => navigate("/contact")}
             size="lg"
             className="bg-accent text-accent-foreground hover:bg-accent/90"
           >

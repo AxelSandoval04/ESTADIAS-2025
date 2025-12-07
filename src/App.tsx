@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Navigation } from "./components/Navigation";
 import { Footer } from "./components/Footer";
@@ -10,55 +10,35 @@ import { ContactPage } from "./components/ContactPage";
 import { LoginPage } from "./components/LoginPage";
 import { ReviewsPage } from "./components/ReviewsPage";
 import { AdminPanel } from "./components/AdminPanel";
-
 import { ProfilePage } from "./components/ProfilePage";
+import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import { Toaster } from "./components/ui/sonner";
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<string>("home");
-
-  // Scroll to top when page changes
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [currentPage]);
-
-  const handleNavigate = (page: string) => {
-    setCurrentPage(page);
-  };
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case "home":
-        return <HomePage onNavigate={handleNavigate} />;
-      case "about":
-        return <AboutPage />;
-      case "services":
-        return <ServicesPage onNavigate={handleNavigate} />;
-      case "projects":
-        return <ProjectsPage />;
-      case "contact":
-        return <ContactPage onNavigate={handleNavigate} />;
-      case "login":
-        return <LoginPage onNavigate={handleNavigate} />;
-      case "reviews":
-        return <ReviewsPage onNavigate={handleNavigate} />;
-      case "admin":
-        return <AdminPanel onNavigate={handleNavigate} />;
-      case "profile":
-        return <ProfilePage onNavigate={handleNavigate} />;
-      default:
-        return <HomePage onNavigate={handleNavigate} />;
-    }
-  };
-
   return (
     <AuthProvider>
-      <div className="min-h-screen flex flex-col">
-        <Navigation currentPage={currentPage} onNavigate={handleNavigate} />
-        <main className="flex-1">{renderPage()}</main>
-        <Footer />
-        <Toaster position="top-left" />
-      </div>
+      <BrowserRouter>
+        <div className="min-h-screen flex flex-col">
+          <Navigation />
+          <main className="flex-1">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/reviews" element={<ReviewsPage />} />
+              <Route path="/admin" element={<AdminPanel />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </main>
+          <Footer />
+          <Toaster position="top-left" />
+        </div>
+      </BrowserRouter>
     </AuthProvider>
   );
 }

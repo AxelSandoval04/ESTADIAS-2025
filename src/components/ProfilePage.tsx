@@ -1,17 +1,16 @@
 import { useState } from "react";
+import { usersAPI } from "../lib/api";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card } from "./ui/card";
 import { toast } from "sonner";
-import { usersAPI } from "../lib/api";
 
-interface ProfilePageProps {
-  onNavigate: (page: string) => void;
-}
 
-export function ProfilePage({ onNavigate }: ProfilePageProps) {
+export function ProfilePage() {
+    const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [form, setForm] = useState({
     name: user?.name || "",
@@ -35,15 +34,25 @@ export function ProfilePage({ onNavigate }: ProfilePageProps) {
     }
     setLoading(true);
     try {
-      await usersAPI.updateProfile({
-        name: form.name,
-        email: form.email,
-        password: form.password,
-        newPassword: form.newPassword,
-      });
-      toast.success("Perfil actualizado correctamente. Vuelve a iniciar sesión.");
-      logout();
-      onNavigate("login");
+      if (localStorage.getItem('forceChangePassword') === 'true') {
+        // Solo cambiar la contraseña, sin pedir la actual
+        await usersAPI.updatePassword(form.newPassword);
+        toast.success("Contraseña actualizada correctamente. Vuelve a iniciar sesión.");
+        logout();
+        localStorage.removeItem('forceChangePassword');
+        navigate("/login");
+      } else {
+        await usersAPI.updateProfile({
+          name: form.name,
+          email: form.email,
+          password: form.password,
+          newPassword: form.newPassword,
+        });
+        toast.success("Perfil actualizado correctamente. Vuelve a iniciar sesión.");
+        logout();
+        localStorage.removeItem('forceChangePassword');
+        navigate("/login");
+      }
     } catch (err: any) {
       toast.error(err.response?.data?.message || "Error al actualizar perfil");
     } finally {
@@ -77,17 +86,19 @@ export function ProfilePage({ onNavigate }: ProfilePageProps) {
               required
             />
           </div>
-          <div>
-            <Label htmlFor="password">Contraseña actual</Label>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              value={form.password}
-              onChange={handleChange}
-              placeholder="Solo si deseas cambiar datos"
-            />
-          </div>
+          {localStorage.getItem('forceChangePassword') === 'true' ? null : (
+            <div>
+              <Label htmlFor="password">Contraseña actual</Label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                value={form.password}
+                onChange={handleChange}
+                placeholder="Solo si deseas cambiar datos"
+              />
+            </div>
+          )}
           <div>
             <Label htmlFor="newPassword">Nueva contraseña</Label>
             <Input

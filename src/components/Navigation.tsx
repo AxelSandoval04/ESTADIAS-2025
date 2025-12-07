@@ -1,25 +1,22 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Menu, X, Zap, LogIn } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth } from "../contexts/AuthContext";
 import { UserMenu } from "./UserMenu";
 
-interface NavigationProps {
-  currentPage: string;
-  onNavigate: (page: string) => void;
-}
-
-export function Navigation({ currentPage, onNavigate }: NavigationProps) {
+export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const menuItems = [
-    { name: "Inicio", page: "home" },
-    { name: "Nosotros", page: "about" },
-    { name: "Servicios", page: "services" },
-    { name: "Proyectos", page: "projects" },
-    { name: "Reseñas", page: "reviews" },
-    { name: "Contacto", page: "contact" },
+    { name: "Inicio", path: "/" },
+    { name: "Nosotros", path: "/about" },
+    { name: "Servicios", path: "/services" },
+    { name: "Proyectos", path: "/projects" },
+    { name: "Reseñas", path: "/reviews" },
+    { name: "Contacto", path: "/contact" },
   ];
 
   return (
@@ -28,7 +25,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <button
-            onClick={() => onNavigate("home")}
+            onClick={() => navigate("/")}
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
@@ -48,10 +45,10 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           <div className="hidden md:flex items-center gap-4">
             {menuItems.map((item) => (
               <button
-                key={item.page}
-                onClick={() => onNavigate(item.page)}
+                key={item.path}
+                onClick={() => navigate(item.path)}
                 className={`transition-colors ${
-                  currentPage === item.page
+                  window.location.pathname === item.path
                     ? "text-primary"
                     : "text-muted-foreground hover:text-primary"
                 }`}
@@ -60,18 +57,18 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
               </button>
             ))}
             <Button
-              onClick={() => onNavigate("contact")}
+              onClick={() => navigate("/contact")}
               className="bg-accent text-accent-foreground hover:bg-accent/90"
             >
               Solicitar Cotización
             </Button>
             {isAuthenticated ? (
-              <UserMenu onNavigate={onNavigate} />
+              <UserMenu />
             ) : (
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => onNavigate("login")}
+                onClick={() => navigate("/login")}
                 className="gap-2"
               >
                 <LogIn className="h-4 w-4" />
@@ -99,13 +96,13 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
             <div className="flex flex-col gap-4">
               {menuItems.map((item) => (
                 <button
-                  key={item.page}
+                  key={item.path}
                   onClick={() => {
-                    onNavigate(item.page);
+                    navigate(item.path);
                     setMobileMenuOpen(false);
                   }}
                   className={`text-left px-4 py-2 transition-colors ${
-                    currentPage === item.page
+                    window.location.pathname === item.path
                       ? "text-primary bg-secondary"
                       : "text-muted-foreground hover:text-primary hover:bg-secondary/50"
                   }`}
@@ -115,7 +112,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
               ))}
               <Button
                 onClick={() => {
-                  onNavigate("contact");
+                  navigate("/contact");
                   setMobileMenuOpen(false);
                 }}
                 className="mx-4 bg-accent text-accent-foreground hover:bg-accent/90"
@@ -124,12 +121,12 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
               </Button>
               <div className="mx-4 pt-4 border-t border-border">
                 {isAuthenticated ? (
-                  <UserMenu onNavigate={onNavigate} />
+                  <UserMenu />
                 ) : (
                   <Button
                     variant="outline"
                     onClick={() => {
-                      onNavigate("login");
+                      navigate("/login");
                       setMobileMenuOpen(false);
                     }}
                     className="w-full gap-2"

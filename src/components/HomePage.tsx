@@ -3,11 +3,10 @@ import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Zap, Lightbulb, Settings, LineChart, Award, Shield } from "lucide-react";
 
-interface HomePageProps {
-  onNavigate: (page: string) => void;
-}
+import { useNavigate } from "react-router-dom";
 
-export function HomePage({ onNavigate }: HomePageProps) {
+export function HomePage() {
+  const navigate = useNavigate();
   const services = [
     {
       icon: Zap,
@@ -61,14 +60,14 @@ export function HomePage({ onNavigate }: HomePageProps) {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
-              onClick={() => onNavigate("contact")}
+              onClick={() => navigate("/contact")}
               size="lg"
               className="bg-accent text-accent-foreground hover:bg-accent/90"
             >
               Solicitar Cotización
             </Button>
             <Button
-              onClick={() => onNavigate("about")}
+              onClick={() => navigate("/about")}
               size="lg"
               variant="outline"
               className="border-2 border-white text-white hover:bg-white hover:text-primary bg-transparent"
@@ -113,7 +112,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
 
           <div className="text-center mt-8">
             <Button
-              onClick={() => onNavigate("services")}
+              onClick={() => navigate("/services")}
               variant="outline"
               className="border-primary text-primary hover:bg-primary hover:text-white"
             >
@@ -189,7 +188,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
             Contáctanos hoy y descubre cómo podemos ayudarte a alcanzar tus objetivos
           </p>
           <Button
-            onClick={() => onNavigate("contact")}
+            onClick={() => navigate("/contact")}
             size="lg"
             className="bg-accent text-accent-foreground hover:bg-accent/90"
           >

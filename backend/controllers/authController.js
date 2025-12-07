@@ -1,3 +1,48 @@
+// @desc    Cambiar contraseña si está usando la genérica
+// @route   PUT /api/auth/update-password
+// @access  Private
+exports.updatePassword = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select('+password');
+    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+    const { newPassword } = req.body;
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 6 caracteres' });
+    }
+
+    // Solo permitir si la contraseña actual es la genérica
+    const isGeneric = await user.comparePassword('123456');
+    if (!isGeneric) {
+      return res.status(400).json({ error: 'Solo puedes usar este método si tienes la contraseña genérica' });
+    }
+
+    user.password = newPassword;
+    await user.save();
+    res.json({ message: 'Contraseña actualizada correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+const crypto = require('crypto');
+// @desc    Solicitar recuperación de contraseña
+// @route   POST /api/auth/forgot-password
+// @access  Public
+exports.forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email is required' });
+  const user = await User.findOne({ email });
+  if (user) {
+    user.password = '123456';
+    user.resetPasswordToken = null;
+    user.resetPasswordExpires = null;
+    await user.save();
+    console.log(`Password for ${email} has been reset to 123456`);
+  }
+  // No revelar si el correo existe o no
+  return res.json({ message: 'If that email is registered, the password has been reset to 123456.' });
+};
+
 // @desc    Actualizar perfil y credenciales del usuario autenticado
 // @route   PUT /api/auth/profile
 // @access  Private

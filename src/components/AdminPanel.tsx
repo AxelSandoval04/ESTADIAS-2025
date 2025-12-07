@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { projectsAPI, quotesAPI, reviewsAPI, categoriesAPI } from "../lib/api";
 import { Card } from "./ui/card";
@@ -50,6 +51,7 @@ interface Category {
   order?: number;
 }
 
+
 interface Project {
   _id: string;
   title: string;
@@ -91,11 +93,8 @@ interface Review {
   createdAt: string;
 }
 
-interface AdminPanelProps {
-  onNavigate: (page: string) => void;
-}
-
-export function AdminPanel({ onNavigate }: AdminPanelProps) {
+export function AdminPanel() {
+  const navigate = useNavigate();
   const { isAdmin, isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = useState("projects");
 
@@ -138,12 +137,12 @@ export function AdminPanel({ onNavigate }: AdminPanelProps) {
   useEffect(() => {
     if (!isAuthenticated) {
       toast.error("Debes iniciar sesión para acceder al panel de administración");
-      onNavigate("login");
+      navigate("/login");
     } else if (!isAdmin) {
       toast.error("No tienes permisos para acceder al panel de administración");
-      onNavigate("home");
+      navigate("/home");
     }
-  }, [isAuthenticated, isAdmin, onNavigate]);
+  }, [isAuthenticated, isAdmin, navigate]);
 
   // Fetch data on mount
   useEffect(() => {
@@ -170,7 +169,7 @@ export function AdminPanel({ onNavigate }: AdminPanelProps) {
             </AlertDescription>
           </Alert>
           <div className="text-center mt-6">
-            <Button onClick={() => onNavigate("home")}>
+            <Button onClick={() => navigate("/home")}> 
               Volver al Inicio
             </Button>
           </div>
@@ -405,7 +404,7 @@ export function AdminPanel({ onNavigate }: AdminPanelProps) {
               <p className="text-blue-100">Gestiona todo el contenido de tu sitio desde aquí</p>
             </div>
             <Button 
-              onClick={() => onNavigate("home")}
+              onClick={() => navigate("/home")}
               variant="outline"
               className="bg-white/10 border-white/20 text-white hover:bg-white/20"
             >

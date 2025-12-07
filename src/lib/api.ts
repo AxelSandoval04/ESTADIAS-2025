@@ -2,6 +2,8 @@
 export const usersAPI = {
   updateProfile: (data: { name: string; email: string; password?: string; newPassword?: string }) =>
     api.put('/auth/profile', data),
+  updatePassword: (newPassword: string) =>
+    api.put('/auth/update-password', { newPassword }),
 };
 import axios from 'axios';
 
@@ -33,10 +35,14 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expirado o inválido
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/';
+      // Solo limpiar y redirigir si ya hay token (usuario autenticado)
+      const token = localStorage.getItem('token');
+      if (token) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '/';
+      }
+      // Si no hay token, es un login fallido: dejar que el frontend maneje el error
     }
     return Promise.reject(error);
   }
@@ -49,6 +55,8 @@ export const authAPI = {
   register: (name: string, email: string, password: string) => 
     api.post('/auth/register', { name, email, password }),
   getMe: () => api.get('/auth/me'),
+  forgotPassword: (email: string) => 
+    api.post('/auth/forgot-password', { email }),
 };
 
 // Projects

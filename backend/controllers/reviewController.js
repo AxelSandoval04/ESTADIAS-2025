@@ -26,7 +26,7 @@ exports.getReviews = async (req, res) => {
 exports.getAllReviews = async (req, res) => {
   try {
     const { project, status } = req.query;
-    const filter = {};
+    const filter = { isActive: true };
     if (project) filter.project = project;
     if (status) filter.status = status;
 

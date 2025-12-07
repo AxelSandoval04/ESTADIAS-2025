@@ -3,11 +3,10 @@ import { useAuth } from "../contexts/AuthContext";
 import { Button } from "./ui/button";
 import { LogOut, Shield, User, ChevronDown, AlertTriangle } from "lucide-react";
 
-interface UserMenuProps {
-  onNavigate: (page: string) => void;
-}
+import { useNavigate } from "react-router-dom";
 
-export function UserMenu({ onNavigate }: UserMenuProps) {
+export function UserMenu() {
+  const navigate = useNavigate();
   const { user, logout, isAdmin } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
@@ -34,7 +33,7 @@ export function UserMenu({ onNavigate }: UserMenuProps) {
   const confirmLogout = () => {
     logout();
     setShowLogoutConfirm(false);
-    onNavigate("home");
+    navigate("/");
   };
 
   const cancelLogout = () => {
@@ -43,7 +42,7 @@ export function UserMenu({ onNavigate }: UserMenuProps) {
 
   const handleNavigateAdmin = () => {
     setIsOpen(false);
-    onNavigate("admin");
+    navigate("/admin");
   };
 
   return (
@@ -68,7 +67,7 @@ export function UserMenu({ onNavigate }: UserMenuProps) {
             </div>
             
             <button
-              onClick={() => { setIsOpen(false); onNavigate('profile'); }}
+              onClick={() => { setIsOpen(false); navigate('/profile'); }}
               className="w-full text-left px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 flex items-center"
             >
               <User className="mr-2 h-4 w-4" />

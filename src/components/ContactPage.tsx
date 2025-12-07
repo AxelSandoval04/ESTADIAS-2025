@@ -10,11 +10,10 @@ import { MapPin, Phone, Mail, Clock, MessageSquare, AlertCircle } from "lucide-r
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "./ui/alert";
 
-interface ContactPageProps {
-  onNavigate: (page: string) => void;
-}
+import { useNavigate } from "react-router-dom";
 
-export function ContactPage({ onNavigate }: ContactPageProps) {
+export function ContactPage() {
+  const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
   const mapsPlaceUrl =
     "https://www.google.com/maps/search/?api=1&query=Nuevo%20M%C3%A9xico%20506%2C%20Universal%2C%2034165%20Durango%2C%20Dgo.";
@@ -31,7 +30,7 @@ export function ContactPage({ onNavigate }: ContactPageProps) {
     
     if (!isAuthenticated) {
       toast.error("Debes iniciar sesión para solicitar una cotización");
-      onNavigate("login");
+      navigate("/login");
       return;
     }
 
@@ -53,7 +52,7 @@ export function ContactPage({ onNavigate }: ContactPageProps) {
       
       // Redirigir al home después de 1.5 segundos
       setTimeout(() => {
-        onNavigate("home");
+        navigate("/");
       }, 1500);
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Error al enviar la cotización");
@@ -159,7 +158,7 @@ export function ContactPage({ onNavigate }: ContactPageProps) {
                 </div>
                 <Button
                   className="w-full mt-4 bg-white text-[#25D366] hover:bg-white/90"
-                  onClick={() => window.open("https://wa.me/526181234567", "_blank")}
+                  onClick={() => window.open("https://wa.me/526181128568", "_blank")}
                 >
                   Enviar Mensaje
                 </Button>
@@ -180,7 +179,7 @@ export function ContactPage({ onNavigate }: ContactPageProps) {
                       Debes{" "}
                       <button
                         type="button"
-                        onClick={() => onNavigate("login")}
+                        onClick={() => navigate("/login")}
                         className="underline font-semibold hover:text-amber-900"
                       >
                         iniciar sesión

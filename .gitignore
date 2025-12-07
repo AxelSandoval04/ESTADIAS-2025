@@ -3,7 +3,7 @@
 # Node dependencies
 node_modules/
 **/node_modules/
-
+.env
 # Build outputs
 /dist/
 **/dist/
@@ -64,3 +64,7 @@ backend/uploads/*
 
 # Misc
 *.orig
+
+# Private documentation (not needed for app operation)
+backend/RESUMEN_FINAL.md
+backend/TABLAS_Y_RELACIONES.md
